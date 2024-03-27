@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="google-site-verification" content="8QGcqcOkKXwBOrvr7OI7TtpLceoAcAlTeJYwurZ3k8w" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" href="/android-chrome-192x192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script src="resources/crypto.js"></script>
+    <script src="resources/bigInt.js"></script>
+    <audio>
+      <source src="resources/Ping.wav" type="audio/wav">
+    </audio>
+  	<meta charset="utf-8">
+    <meta name="description" content="A free, encrypted, and private messaging service">
+    <meta name="keywords" content="Moossenger, Messenger, Messaging">
+    <meta name="author" content="racecar134">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<title>Moossenger</title>
+	  <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+  <div id="load">
+    <img src="resources/favicon.svg" id="loadI"/>
+    <h2><b>Loading may take some time</b>...</h2>
+  </div>
+  <div id="bodySubstitute">
+	  <div id="navBar">
+		  <p style="display: inline;" id="p">
+		  Moossenger
+		  </p>
+		  <p id="name" style="cursor: pointer;"></p>
+      <div id="statusDiv" onclick="swap();">
+        <p id="status" style="display: none;">
+          Online&nbsp;
+        </p>
+        <button class="g" id="rgo" style="display: none;"></button>
+      </div>
+		  <button onclick="settings();" style="display: none;" id="options" class="green">
+        Options
+      </button>
+      <button onclick="chatClear();" style="display: none;" id="clearChat" class="redButton">
+        Clear Chat
+      </button>
+      <button onclick="changeVolume();" style="display: none;" id="volume">
+        🔊
+      </button>
+    </div>
+    <div id="login" style="display: none;"> 
+      <input id="username" placeholder="Username">
+      <input id="password" placeholder="Password" type="password">
+      <button onclick="signup();" class="sign" id="signup">Sign Up</button>
+      <button onclick="signin();" class="sign" id="signin">Sign In</button>
+    </div>
+	  <div style="display: none;" id="content">
+      <button id="deletePerson" onclick="deleteContact()">
+        <b>- Contact</b>
+      </button>
+      <button id="addPerson" onclick="add()">
+        <b>+ Contact</b>
+      </button>
+      <button id="requests" onclick="requests();">
+        <img width="100%" src="resources/requests.png">
+      </button>
+      <div id="rDContainer" style="opacity: 0; pointer-events: none;">
+        <svg width="20px" height="40px" id="requestTriangle">
+          <polygon points="0,20 20,0 20,40" style="fill: #334; stroke: #334; stroke-width: 0" />
+        </svg>
+        <div id="requestDiv">
+        </div>
+      </div>
+      <div class="gray" style="opacity: 0; pointer-events: none;" onclick="closeG();">
+      </div>
+      <div id="menu" style="opacity: 0; pointer-events: none;">
+        <h1 class="cmds">Commands</h1>
+        <h1 class="x" onclick="closeCmds();">x</h1>
+        <div id="commands">
+          <p>
+            <span>/8ball - </span>
+            Prints a random 8 Ball message
+          </p>
+          <p>
+            <span>/dice - </span>
+            Prints a number between 1 and 6
+          </p>
+          <p>
+            <span>/banlist - </span>
+            Opens a menu with all banned users
+          </p>
+          <p>
+            <span>/blocked - </span>
+            Opens a menu that can block and unblock people
+          </p>
+          <p>
+            <span>/tutorial - </span>
+            Opens a tutorial
+          </p>
+        </div>
+      </div>
+      <div id="banMenu" style="opacity: 0; pointer-events: none;">
+        <h1 class="cmds">Ban List</h1>
+        <h1 class="x" onclick="closeBan();">x</h1>
+        <div id="banList">
+        </div>
+      </div>
+      <div id="blockMenu" style="opacity: 0; pointer-events: none;">
+        <h1 class="cmds">Blocked Users</h1>
+        <h1 class="x" onclick="closeBlock();">x</h1>
+        <input maxlength="30" placeholder="Username you want to block/unblock" id="binput">
+        <button id="unblock" onclick="unblock();">Unblock</button>
+        <button id="block" onclick="block(binput.value);">Block</button>
+        <div id="blockList">
+        </div>
+      </div>
+      <div id="ree">
+      </div>
+      <div id="hi" style="display: none;">
+        <p id="pht"></p>
+        <p id="wtt"></p>
+        <div id="prb"></div>
+      </div>
+      <div id="important">
+        <div id="chatArea">
+        </div>
+        <p id="read">Read by other person: Never</p>
+        <img id="timer" src="resources/Timer.png" width="20px"></img>
+        <svg width="10px" height="10px" id="timerLine">
+          <line x1="5" y1="1" x2="5" y2="5" style="stroke: whitesmoke; stroke-width: 2; stroke-linecap: round;" />
+        </svg>
+	  	  <textarea rows="4" cols="115" id="selfText" placeholder="Send A Message" maxlength="464"></textarea>
+        <label for="upload" id="label">
+          <input id="upload" type="file" onchange="upload();"/>
+          <img src="resources/upload.jpg" wdith="65px" height="65px">
+        </label>
+        <button onclick="help();" id="help">?</button>
+        <button onclick="stuff(); if (!isMobile) {selftext.select()}" id="send">O</button>
+      </div>
+      <div id="switchContainer">
+        <label id="notifSwitch">
+          Notifications:
+          <input id="notifCheck" type="checkbox" disabled onclick="selftext.select();">
+        </label>
+        <label id="soundSwitch">
+          Sound:
+          <input id="soundCheck" type="checkbox" onclick="selftext.select();">
+        </label>
+      </div>
+    </div>
+    <script src="scripts/helperFunctions.js"></script>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/variables.js"></script>
+    <script src="scripts/run.js"></script>
+    </div>
+  </body>
+</html>

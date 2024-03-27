@@ -1,0 +1,13 @@
+{
+  "name": "Moossenger",
+  "short_name": "Moossenger",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
